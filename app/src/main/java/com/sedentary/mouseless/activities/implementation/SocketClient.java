@@ -11,7 +11,6 @@ import java.net.URISyntaxException;
 public class SocketClient {
     Socket socket = null;
 
-
     public SocketClient(String address, Integer port) throws URISyntaxException {
         StringBuilder url = new StringBuilder();
         url.append("http://");
