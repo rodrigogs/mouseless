@@ -1,15 +1,12 @@
 package com.sedentary.mouseless.activities.main;
 
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.hardware.Sensor;
 import android.hardware.SensorEvent;
-import android.hardware.SensorEventListener;
-import android.hardware.SensorManager;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
@@ -18,13 +15,17 @@ import android.widget.Button;
 import android.widget.Toast;
 
 import com.sedentary.mouseless.R;
-import com.sedentary.mouseless.activities.implementation.Accelerometer;
+import com.sedentary.mouseless.implementation.Accelerometer;
 import com.sedentary.mouseless.activities.settings.SettingsActivity;
 
 import com.github.nkzawa.socketio.client.Socket;
 import com.sedentary.mouseless.commons.MouseClickType;
+import com.sedentary.mouseless.implementation.SocketClient;
 
-public class MainActivity extends Activity implements Accelerometer.Callback {
+import java.net.MalformedURLException;
+import java.net.URISyntaxException;
+
+public class MainActivity extends Activity {
 
     private static final String TAG = "MainActivity";
 
@@ -33,7 +34,7 @@ public class MainActivity extends Activity implements Accelerometer.Callback {
 
     private Accelerometer accelerometer;
 
-    Socket socket;
+    SocketClient socketClient;
 
     Button btnMouseLeft;
     Button btnMouseRight;
@@ -46,15 +47,31 @@ public class MainActivity extends Activity implements Accelerometer.Callback {
         setContentView(R.layout.activity_main);
 
         // Accelerometer
-        accelerometer   = new Accelerometer(getApplicationContext(), this);
+        accelerometer = new Accelerometer(getApplicationContext(), accelerometerCallback);
         // Buttons
-        btnMouseLeft	= (Button) findViewById(R.id.btnMouseLeft);
-        btnMouseRight	= (Button) findViewById(R.id.btnMouseRight);
+        btnMouseLeft = (Button) findViewById(R.id.btnMouseLeft);
+        btnMouseRight = (Button) findViewById(R.id.btnMouseRight);
         // Buttons listeners
         btnMouseLeft.setOnTouchListener(onBtnMouseLeftTouch);
         btnMouseRight.setOnTouchListener(onBtnMouseRightTouch);
         // Settings
         settings = PreferenceManager.getDefaultSharedPreferences(this);
+        // SocketClient
+        try {
+            socketClient = new SocketClient(
+                    settings.getString("foo", "foo"),
+                    settings.getInt("bar", 0),
+                    socketClientCallback);
+        } catch (URISyntaxException e) {
+            socketClient = null;
+        } catch (MalformedURLException e) {
+            socketClient = null;
+        }
+
+        if (socketClient == null) {
+            Toast.makeText(
+                    getApplicationContext(), getString(R.string.malformed_url), Toast.LENGTH_LONG);
+        }
     }
 
     @Override
@@ -76,11 +93,9 @@ public class MainActivity extends Activity implements Accelerometer.Callback {
             startActivity(intent);
             return true;
         } else if (id == R.id.action_connect) {
-            //TODO
-            Toast.makeText(getApplicationContext(), "Connect", Toast.LENGTH_LONG).show();
+            socketClient.connect();
         } else if (id == R.id.action_disconnect) {
-            //TODO
-            Toast.makeText(getApplicationContext(), "Disconect", Toast.LENGTH_LONG).show();
+            socketClient.disconnect();
         }
         return super.onOptionsItemSelected(item);
     }
@@ -100,7 +115,7 @@ public class MainActivity extends Activity implements Accelerometer.Callback {
                     break;
             }
 
-            socket.send(touch);
+            socketClient.emit(touch);
             return false;
         }
     };
@@ -120,13 +135,34 @@ public class MainActivity extends Activity implements Accelerometer.Callback {
                     break;
             }
 
-            socket.send(touch);
+            socketClient.emit(touch);
             return false;
         }
     };
 
-    @Override
-    public void sensorChanged(SensorEvent e) {
+    Accelerometer.Callback accelerometerCallback = new Accelerometer.Callback() {
 
-    }
+        @Override
+        public void sensorChanged(SensorEvent e) {
+            Log.d(TAG, e.toString());
+        }
+    };
+
+    SocketClient.Callback socketClientCallback = new SocketClient.Callback() {
+
+        @Override
+        public void connected() {
+            Toast.makeText(getApplicationContext(), getString(R.string.event_connected), Toast.LENGTH_LONG);
+        }
+
+        @Override
+        public void disconnected() {
+            Toast.makeText(getApplicationContext(), getString(R.string.event_disconnected), Toast.LENGTH_LONG);
+        }
+
+        @Override
+        public void message(Object... args) {
+
+        }
+    };
 }

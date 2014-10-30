@@ -5,5 +5,10 @@
     <string name="action_settings">Configurações</string>
     <string name="action_connect">Conectar</string>
     <string name="action_disconnect">Desconectar</string>
+    <string name="server_ip_preference">IP do Servidor</string>
+    <string name="server_port_preference">Porta</string>
+    <string name="event_connected">Conectado</string>
+    <string name="malformed_url">Confira a configuração e tente novamente</string>
+    <string name="event_disconnected">Desconectado</string>
 
 </resources>

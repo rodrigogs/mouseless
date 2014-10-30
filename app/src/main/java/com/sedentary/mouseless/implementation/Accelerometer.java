@@ -1,4 +1,4 @@
-package com.sedentary.mouseless.activities.implementation;
+package com.sedentary.mouseless.implementation;
 
 import android.content.Context;
 import android.hardware.Sensor;
@@ -19,6 +19,7 @@ public class Accelerometer {
      * @param callback
      */
     public Accelerometer(Context context, Callback callback) {
+        this.callback = callback;
         sensorManager = (SensorManager) context.getSystemService(Context.SENSOR_SERVICE);
 
         load();
