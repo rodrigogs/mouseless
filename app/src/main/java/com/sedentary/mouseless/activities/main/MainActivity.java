@@ -1,8 +1,10 @@
 package com.sedentary.mouseless.activities.main;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.hardware.SensorEvent;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -11,6 +13,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.Toast;
 
@@ -46,6 +49,8 @@ public class MainActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        // Keep screen on
+        getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         // Accelerometer
         accelerometer = new Accelerometer(getApplicationContext(), accelerometerCallback);
         // Buttons
@@ -56,22 +61,6 @@ public class MainActivity extends Activity {
         btnMouseRight.setOnTouchListener(onBtnMouseRightTouch);
         // Settings
         settings = PreferenceManager.getDefaultSharedPreferences(this);
-        // SocketClient
-        try {
-            socketClient = new SocketClient(
-                    settings.getString("foo", "foo"),
-                    settings.getInt("bar", 0),
-                    socketClientCallback);
-        } catch (URISyntaxException e) {
-            socketClient = null;
-        } catch (MalformedURLException e) {
-            socketClient = null;
-        }
-
-        if (socketClient == null) {
-            Toast.makeText(
-                    getApplicationContext(), getString(R.string.malformed_url), Toast.LENGTH_LONG);
-        }
     }
 
     @Override
@@ -93,11 +82,26 @@ public class MainActivity extends Activity {
             startActivity(intent);
             return true;
         } else if (id == R.id.action_connect) {
-            socketClient.connect();
+            if (socketClient == null) {
+                createSocket();
+            }
+            if (socketClient != null) {
+                socketClient.connect();
+            }
         } else if (id == R.id.action_disconnect) {
-            socketClient.disconnect();
+            if (socketClient != null) {
+                socketClient.disconnect();
+            }
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    protected void onDestroy() {
+        accelerometer.unload();
+        socketClient.disconnect();
+
+        super.onDestroy();
     }
 
     View.OnTouchListener onBtnMouseLeftTouch = new View.OnTouchListener() {
@@ -140,29 +144,104 @@ public class MainActivity extends Activity {
         }
     };
 
+    /**
+     *
+     */
+    public void createSocket() {
+        try {
+            socketClient = new SocketClient(
+                    settings.getString("serverIp", ""),
+                    Integer.valueOf(settings.getString("serverPort", "0")),
+                    socketClientCallback);
+        } catch (URISyntaxException e) {
+            socketClient = null;
+        } catch (MalformedURLException e) {
+            socketClient = null;
+        }
+
+        if (socketClient == null) {
+            Toast.makeText(
+                    getApplicationContext(), getString(R.string.malformed_url), Toast.LENGTH_LONG).show();
+        }
+    }
+
     Accelerometer.Callback accelerometerCallback = new Accelerometer.Callback() {
 
         @Override
         public void sensorChanged(SensorEvent e) {
-            Log.d(TAG, e.toString());
+            //Log.d(TAG, "X: " + String.valueOf(e.values[0]));
         }
     };
 
     SocketClient.Callback socketClientCallback = new SocketClient.Callback() {
 
         @Override
-        public void connected() {
-            Toast.makeText(getApplicationContext(), getString(R.string.event_connected), Toast.LENGTH_LONG);
-        }
-
-        @Override
-        public void disconnected() {
-            Toast.makeText(getApplicationContext(), getString(R.string.event_disconnected), Toast.LENGTH_LONG);
+        public void connectionStatusChanged(final SocketClient.ConnectionStatus status) {
+            final Context context = getApplicationContext();
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    switch (status) {
+                        case CONNECTED:
+                            Toast.makeText(context, getString(R.string.event_connection_connected), Toast.LENGTH_SHORT).show();
+                            Log.d(TAG, getString(R.string.event_connection_connected));
+                            break;
+                        case DISCONNECTED:
+                            Toast.makeText(context, getString(R.string.event_connection_disconnected), Toast.LENGTH_SHORT).show();
+                            Log.d(TAG, getString(R.string.event_connection_disconnected));
+                            break;
+                        case RECONNECT_ATTEMPT:
+                            Toast.makeText(context, getString(R.string.event_connection_reconnect_attempt), Toast.LENGTH_SHORT).show();
+                            Log.d(TAG, getString(R.string.event_connection_reconnect_attempt));
+                            break;
+                        case RECONNECTED:
+                            Toast.makeText(context, getString(R.string.event_connection_reconected), Toast.LENGTH_SHORT).show();
+                            Log.d(TAG, getString(R.string.event_connection_reconected));
+                            break;
+                        case RECONNECTING:
+                            Toast.makeText(context, getString(R.string.event_connection_reconnecting), Toast.LENGTH_SHORT).show();
+                            Log.d(TAG, getString(R.string.event_connection_reconnecting));
+                            break;
+                    }
+                }
+            });
         }
 
         @Override
         public void message(Object... args) {
+            Log.d(TAG, "Mensagem: " + args.toString());
+        }
 
+        @Override
+        public void error(final SocketClient.ConnectionErrorType type) {
+            final Context context = getApplicationContext();
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    switch (type) {
+                        case ERROR:
+                            Toast.makeText(context, getString(R.string.event_connection_error), Toast.LENGTH_SHORT).show();
+                            Log.d(TAG, getString(R.string.event_connection_error));
+                            break;
+                        case CONNECT_ERROR:
+                            Toast.makeText(getApplicationContext(), getString(R.string.event_connection_connect_error), Toast.LENGTH_SHORT).show();
+                            Log.d(TAG, getString(R.string.event_connection_connect_error));
+                            break;
+                        case CONNECT_TIMEOUT:
+                            Toast.makeText(getApplicationContext(), getString(R.string.event_connection_connect_timeout), Toast.LENGTH_SHORT).show();
+                            Log.d(TAG, getString(R.string.event_connection_connect_timeout));
+                            break;
+                        case RECONNECT_FAILED:
+                            Toast.makeText(context, getString(R.string.event_connection_reconnect_failed), Toast.LENGTH_SHORT).show();
+                            Log.d(TAG, getString(R.string.event_connection_reconnect_failed));
+                            break;
+                        case RECONNECT_ERROR:
+                            Toast.makeText(context, getString(R.string.event_connection_reconnect_error), Toast.LENGTH_SHORT).show();
+                            Log.d(TAG, getString(R.string.event_connection_reconnect_error));
+                            break;
+                    }
+                }
+            });
         }
     };
 }

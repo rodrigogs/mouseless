@@ -10,6 +10,7 @@
     <EditTextPreference
         android:defaultValue="9792"
         android:dialogTitle="@string/server_port_preference"
+        android:inputType="number"
         android:key="serverPort"
         android:persistent="true"
         android:title="@string/server_port_preference" />

@@ -7,8 +7,19 @@
     <string name="action_disconnect">Desconectar</string>
     <string name="server_ip_preference">IP do Servidor</string>
     <string name="server_port_preference">Porta</string>
-    <string name="event_connected">Conectado</string>
+
     <string name="malformed_url">Confira a configuração e tente novamente</string>
-    <string name="event_disconnected">Desconectado</string>
+
+    <string name="event_connection_connected">Conectado</string>
+    <string name="event_connection_disconnected">Desconectado</string>
+    <string name="event_connection_reconnect_attempt">Tentando reconectar</string>
+    <string name="event_connection_reconected">Reconectado</string>
+    <string name="event_connection_reconnecting">Reconectando</string>
+
+    <string name="event_connection_error">Erro ao conectar</string>
+    <string name="event_connection_connect_error">Erro ao conectar</string>
+    <string name="event_connection_connect_timeout">A tentativa de conexão expirou</string>
+    <string name="event_connection_reconnect_failed">A reconexão falhou</string>
+    <string name="event_connection_reconnect_error">Erro ao reconectar</string>
 
 </resources>
