@@ -8,6 +8,7 @@ import android.graphics.Color;
 import android.hardware.SensorEvent;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.util.JsonWriter;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -17,13 +18,18 @@ import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.Toast;
 
+import com.google.gson.Gson;
 import com.sedentary.mouseless.R;
+import com.sedentary.mouseless.commons.Coordinates;
 import com.sedentary.mouseless.implementation.Accelerometer;
 import com.sedentary.mouseless.activities.settings.SettingsActivity;
 
 import com.github.nkzawa.socketio.client.Socket;
 import com.sedentary.mouseless.commons.MouseClickType;
 import com.sedentary.mouseless.implementation.SocketClient;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.net.MalformedURLException;
 import java.net.URISyntaxException;
@@ -32,8 +38,8 @@ public class MainActivity extends Activity {
 
     private static final String TAG = "MainActivity";
 
-    public static final String COORDINATES_TYPE	= "COORDS";
-    public static final String MOUSE_CLICK_TYPE	= "CLICK";
+    public static final String COORDINATES_EVENT = "COORDS";
+    public static final String MOUSE_CLICK_EVENT = "CLICK";
 
     private Accelerometer accelerometer;
 
@@ -110,18 +116,26 @@ public class MainActivity extends Activity {
 
         @Override
         public boolean onTouch(View v, MotionEvent event) {
-            String touch = "";
+            JSONObject click = new JSONObject();
 
-            switch (event.getAction()) {
-                case MotionEvent.ACTION_DOWN:
-                    touch = MOUSE_CLICK_TYPE + ":" + MouseClickType.LEFT_DOWN;
-                    break;
-                case MotionEvent.ACTION_UP:
-                    touch = MOUSE_CLICK_TYPE + ":" + MouseClickType.LEFT_UP;
-                    break;
+            try {
+                switch (event.getAction()) {
+                    case MotionEvent.ACTION_DOWN:
+                        click.put("type", MouseClickType.LEFT_DOWN);
+                        break;
+                    case MotionEvent.ACTION_UP:
+                        click.put("type", MouseClickType.LEFT_UP);
+                        break;
+                }
+
+//                sendClick(click).run();
+                if (socketClient != null) {
+                    socketClient.emit(MOUSE_CLICK_EVENT, click);
+                }
+            } catch (JSONException e) {
+                Toast.makeText(getApplicationContext(), getString(R.string.generic_error), Toast.LENGTH_SHORT).show();
             }
 
-            socketClient.emit(MOUSE_CLICK_TYPE ,touch);
             return false;
         }
     };
@@ -130,18 +144,26 @@ public class MainActivity extends Activity {
 
         @Override
         public boolean onTouch(View v, MotionEvent event) {
-            String touch = "";
+            JSONObject click = new JSONObject();
 
-            switch (event.getAction()) {
-                case MotionEvent.ACTION_DOWN:
-                    touch = MOUSE_CLICK_TYPE + ":" + MouseClickType.RIGHT_DOWN;
-                    break;
-                case MotionEvent.ACTION_UP:
-                    touch = MOUSE_CLICK_TYPE + ":" + MouseClickType.RIGHT_UP;
-                    break;
+            try {
+                switch (event.getAction()) {
+                    case MotionEvent.ACTION_DOWN:
+                        click.put("type", MouseClickType.RIGHT_DOWN);
+                        break;
+                    case MotionEvent.ACTION_UP:
+                        click.put("type", MouseClickType.RIGHT_UP);
+                        break;
+                }
+
+//                sendClick(click).run();
+                if (socketClient != null) {
+                    socketClient.emit(MOUSE_CLICK_EVENT, click);
+                }
+            } catch (JSONException e) {
+                Toast.makeText(getApplicationContext(), getString(R.string.generic_error), Toast.LENGTH_SHORT).show();
             }
 
-            socketClient.emit(touch);
             return false;
         }
     };
@@ -171,9 +193,53 @@ public class MainActivity extends Activity {
 
         @Override
         public void sensorChanged(SensorEvent e) {
-            //Log.d(TAG, "X: " + String.valueOf(e.values[0]));
+            String c = new Gson().toJson(new Coordinates(e.values[0], e.values[1], e.values[2]));
+            try {
+                JSONObject coords = new JSONObject(c);
+                if (socketClient != null) {
+                    socketClient.emit(COORDINATES_EVENT, coords);
+                }
+            } catch (JSONException ex) {
+                ex.printStackTrace();
+            }
         }
     };
+
+    /**
+     * @param click
+     * @return
+     */
+    private Runnable sendClick(final JSONObject click) {
+
+        Runnable aRunnable = new Runnable(){
+            public void run(){
+                if (socketClient != null) {
+                    socketClient.emit(MOUSE_CLICK_EVENT, click);
+                }
+            }
+        };
+
+        return aRunnable;
+    }
+
+    /**
+     * @param c
+     * @return
+     */
+    private Runnable sendCoordinates(final Coordinates c) {
+
+        Runnable aRunnable = new Runnable(){
+            public void run(){
+                String coords = new Gson().toJson(c);
+
+                if (socketClient != null) {
+                    socketClient.emit(COORDINATES_EVENT, coords);
+                }
+            }
+        };
+
+        return aRunnable;
+    }
 
     SocketClient.Callback socketClientCallback = new SocketClient.Callback() {
 

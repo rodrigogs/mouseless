@@ -21,5 +21,6 @@
     <string name="event_connection_connect_timeout">A tentativa de conexão expirou</string>
     <string name="event_connection_reconnect_failed">A reconexão falhou</string>
     <string name="event_connection_reconnect_error">Erro ao reconectar</string>
+    <string name="generic_error">Erro</string>
 
 </resources>
