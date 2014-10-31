@@ -32,8 +32,8 @@ public class MainActivity extends Activity {
 
     private static final String TAG = "MainActivity";
 
-    public static final String COORDINATES_TYPE	= "C";
-    public static final String MOUSE_CLICK_TYPE	= "M";
+    public static final String COORDINATES_TYPE	= "COORDS";
+    public static final String MOUSE_CLICK_TYPE	= "CLICK";
 
     private Accelerometer accelerometer;
 
@@ -99,7 +99,9 @@ public class MainActivity extends Activity {
     @Override
     protected void onDestroy() {
         accelerometer.unload();
-        socketClient.disconnect();
+        if (socketClient != null) {
+            socketClient.disconnect();
+        }
 
         super.onDestroy();
     }
@@ -119,7 +121,7 @@ public class MainActivity extends Activity {
                     break;
             }
 
-            socketClient.emit(touch);
+            socketClient.emit(MOUSE_CLICK_TYPE ,touch);
             return false;
         }
     };
