@@ -38,8 +38,8 @@ public class MainActivity extends Activity {
 
     private static final String TAG = "MainActivity";
 
-    public static final String COORDINATES_EVENT = "COORDS";
-    public static final String MOUSE_CLICK_EVENT = "CLICK";
+    public static final String COORDINATES_EVENT = "coordinate";
+    public static final String MOUSE_CLICK_EVENT = "mouseclick";
 
     private Accelerometer accelerometer;
 
@@ -116,25 +116,18 @@ public class MainActivity extends Activity {
 
         @Override
         public boolean onTouch(View v, MotionEvent event) {
-            JSONObject click = new JSONObject();
+            String click = null;
 
-            try {
-                switch (event.getAction()) {
-                    case MotionEvent.ACTION_DOWN:
-                        click.put("type", MouseClickType.LEFT_DOWN);
-                        break;
-                    case MotionEvent.ACTION_UP:
-                        click.put("type", MouseClickType.LEFT_UP);
-                        break;
-                }
-
-//                sendClick(click).run();
-                if (socketClient != null) {
-                    socketClient.emit(MOUSE_CLICK_EVENT, click);
-                }
-            } catch (JSONException e) {
-                Toast.makeText(getApplicationContext(), getString(R.string.generic_error), Toast.LENGTH_SHORT).show();
+            switch (event.getAction()) {
+                case MotionEvent.ACTION_DOWN:
+                    click = MouseClickType.LEFT_DOWN.toString();
+                    break;
+                case MotionEvent.ACTION_UP:
+                    click = MouseClickType.LEFT_UP.toString();
+                    break;
             }
+
+            sendClick(click).run();
 
             return false;
         }
@@ -144,25 +137,18 @@ public class MainActivity extends Activity {
 
         @Override
         public boolean onTouch(View v, MotionEvent event) {
-            JSONObject click = new JSONObject();
+            String click = null;
 
-            try {
-                switch (event.getAction()) {
-                    case MotionEvent.ACTION_DOWN:
-                        click.put("type", MouseClickType.RIGHT_DOWN);
-                        break;
-                    case MotionEvent.ACTION_UP:
-                        click.put("type", MouseClickType.RIGHT_UP);
-                        break;
+            switch (event.getAction()) {
+                case MotionEvent.ACTION_DOWN:
+                    click = MouseClickType.RIGHT_DOWN.toString();
+                    break;
+                case MotionEvent.ACTION_UP:
+                    click = MouseClickType.RIGHT_UP.toString();
+                    break;
                 }
 
-//                sendClick(click).run();
-                if (socketClient != null) {
-                    socketClient.emit(MOUSE_CLICK_EVENT, click);
-                }
-            } catch (JSONException e) {
-                Toast.makeText(getApplicationContext(), getString(R.string.generic_error), Toast.LENGTH_SHORT).show();
-            }
+            sendClick(click).run();
 
             return false;
         }
@@ -209,7 +195,7 @@ public class MainActivity extends Activity {
      * @param click
      * @return
      */
-    private Runnable sendClick(final JSONObject click) {
+    private Runnable sendClick(final Object click) {
 
         Runnable aRunnable = new Runnable(){
             public void run(){

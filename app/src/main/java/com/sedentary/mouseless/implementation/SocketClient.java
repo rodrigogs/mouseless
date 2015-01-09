@@ -34,9 +34,9 @@ public class SocketClient {
         URL url = new URL("http", address, port, "");
 
         IO.Options options = new IO.Options();
-//        options.forceNew = true;
-//        options.reconnection = true;
-//        options.reconnectionDelay = 5000;
+        options.forceNew = true;
+        options.reconnection = true;
+        options.reconnectionDelay = 5000;
 
         socket = IO.socket(url.toURI(), options);
 
