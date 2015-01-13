@@ -70,7 +70,7 @@ public class SettingsActivity extends PreferenceActivity {
         // to reflect the new value, per the Android Design guidelines.
         bindPreferenceSummaryToValue(findPreference("serverIp"));
         bindPreferenceSummaryToValue(findPreference("serverPort"));
-        
+
         // SeekBar
         Preference mouseSensibility = findPreference("mouseSensibility");
         sBindPreferenceSummaryToValueListener.onPreferenceChange(mouseSensibility,
