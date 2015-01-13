@@ -10,3 +10,5 @@ Just change the app's configuration to point to a running server ip/port and it'
 * Scroll button(could be volume buttons)
 * Internationalization
 * Bluetooth communication
+* Ignore coordinates preference
+* Ignore mouse clicks preference
