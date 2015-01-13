@@ -7,6 +7,6 @@ Just change the app's configuration to point to a running server ip and port and
 # TODO
 * Sensor sensibility preference
 * Auto reconnect preferences
-* Scroll button
+* Scroll button(could be volume buttons)
 * Internationalization
 * Bluetooth communication
