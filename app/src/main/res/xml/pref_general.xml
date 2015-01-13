@@ -1,4 +1,6 @@
-<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+<PreferenceScreen
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:robobunny="http://robobunny.com">
 
     <EditTextPreference
         android:defaultValue="0.0.0.0"
@@ -14,5 +16,16 @@
         android:key="serverPort"
         android:persistent="true"
         android:title="@string/server_port_preference" />
+
+    <com.robobunny.SeekBarPreference
+        android:key="mouseSensibility"
+        android:title="Sensibilidade do Mouse"
+        android:summary="Ajusta a sensibilidade do movimento do mouse"
+        android:defaultValue="1"
+        android:max="10"
+        robobunny:min="1"
+        robobunny:unitsLeft=""
+        robobunny:unitsRight=""
+        />
 
 </PreferenceScreen>

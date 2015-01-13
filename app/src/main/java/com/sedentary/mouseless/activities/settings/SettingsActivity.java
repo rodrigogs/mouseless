@@ -70,6 +70,13 @@ public class SettingsActivity extends PreferenceActivity {
         // to reflect the new value, per the Android Design guidelines.
         bindPreferenceSummaryToValue(findPreference("serverIp"));
         bindPreferenceSummaryToValue(findPreference("serverPort"));
+        
+        // SeekBar
+        Preference mouseSensibility = findPreference("mouseSensibility");
+        sBindPreferenceSummaryToValueListener.onPreferenceChange(mouseSensibility,
+                PreferenceManager
+                        .getDefaultSharedPreferences(mouseSensibility.getContext())
+                        .getInt(mouseSensibility.getKey(), 0));
     }
 
     /** {@inheritDoc} */
@@ -177,6 +184,13 @@ public class SettingsActivity extends PreferenceActivity {
             // guidelines.
             bindPreferenceSummaryToValue(findPreference("serverIp"));
             bindPreferenceSummaryToValue(findPreference("serverPort"));
+
+            // SeekBar
+            Preference mouseSensibility = findPreference("mouseSensibility");
+            sBindPreferenceSummaryToValueListener.onPreferenceChange(mouseSensibility,
+                    PreferenceManager
+                            .getDefaultSharedPreferences(mouseSensibility.getContext())
+                            .getInt(mouseSensibility.getKey(), 0));
         }
     }
 }
