@@ -57,3 +57,4 @@ local.properties
 
 # PDT-specific
 .buildpath
+app/manifest-merger-release-report.txt
