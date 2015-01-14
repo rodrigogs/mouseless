@@ -179,7 +179,11 @@ public class MainActivity extends Activity {
 
         @Override
         public void sensorChanged(SensorEvent e) {
-            String c = new Gson().toJson(new Coordinates(e.values[0], e.values[1], e.values[2]));
+            Integer mouseSensibility = settings.getInt("mouseSensibility", 0);
+            String c = new Gson().toJson(new Coordinates(
+                    e.values[0] * mouseSensibility,
+                    e.values[1] * mouseSensibility,
+                    e.values[2] * mouseSensibility));
             try {
                 JSONObject coords = new JSONObject(c);
                 if (socketClient != null) {
