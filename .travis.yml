@@ -10,7 +10,7 @@ android:
     - build-tools-20.0.0
 
     # The SDK version used to compile your project
-    - android-20
+    - android-19
 
     # Additional components
     # - extra-google-google_play_services
@@ -20,14 +20,14 @@ android:
 
     # Specify at least one system image,
     # if you need to run emulator(s) during your tests
-    - sys-img-armeabi-v7a-android-20
-    - sys-img-x86-android-20
+    - sys-img-armeabi-v7a-android-19
+    - sys-img-x86-android-19
 
 before_install:
  - chmod +x gradlew
 
 before_script:
-  - echo no | android create avd -f -n test -t android-20 --abi armeabi-v7a
+  - echo no | android create avd -f -n test -t android-19 --abi armeabi-v7a
   - emulator -avd test -no-skin -no-audio -no-window &
   - curl http://is.gd/android_wait_for_emulator > android-wait-for-emulator
   - chmod u+x android-wait-for-emulator
