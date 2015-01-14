@@ -4,6 +4,11 @@ Android application using nkzawa's [socket.io-client.java](https://github.com/nk
 
 Just change the app's configuration to point to a running server ip/port and it's good to go.
 
+<a href="https://play.google.com/store/apps/details?id=com.sedentary.mouseless">
+  <img alt="Android app on Google Play"
+       src="https://developer.android.com/images/brand/en_app_rgb_wo_45.png" />
+</a>
+
 # TODO
 * Sensor sensibility preference
 * Auto reconnect preferences
