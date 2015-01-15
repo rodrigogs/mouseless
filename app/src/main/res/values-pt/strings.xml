@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!--App-->
+    <string name="app_name">Mouseless</string>
+
+    <!--Actions-->
+    <string name="action_settings">Configurações</string>
+    <string name="action_connect">Conectar</string>
+    <string name="action_disconnect">Desconectar</string>
+
+    <!--Preferences-->
+    <string name="server_ip_preference">IP do Servidor</string>
+    <string name="server_port_preference">Porta</string>
+    <string name="mouse_sensibility_preference">Sensibilidade do mouse</string>
+    <string name="mouse_sensibility_preference_summary">Ajusta a sensibilidade do mouse</string>
+
+    <!--Socket events-->
+    <string name="event_connection_connected">Conectado</string>
+    <string name="event_connection_disconnected">Desconectado</string>
+    <string name="event_connection_reconnect_attempt">Tentando reconectar</string>
+    <string name="event_connection_reconnected">Reconectado</string>
+    <string name="event_connection_reconnecting">Reconectando</string>
+    <string name="event_connection_error">Erro ao conectar</string>
+    <string name="event_connection_connect_error">Erro ao conectar</string>
+    <string name="event_connection_connect_timeout">A tentativa de conexão expirou</string>
+    <string name="event_connection_reconnect_failed">A reconexão falhou</string>
+    <string name="event_connection_reconnect_error">Erro ao reconectar</string>
+
+    <!--Errors-->
+    <string name="malformed_url">Confira a configuração e tente novamente</string>
+    <string name="generic_error">Erro</string>
+
+</resources>

@@ -253,8 +253,8 @@ public class MainActivity extends Activity {
                             Log.d(TAG, getString(R.string.event_connection_reconnect_attempt));
                             break;
                         case RECONNECTED:
-                            Toast.makeText(context, getString(R.string.event_connection_reconected), Toast.LENGTH_SHORT).show();
-                            Log.d(TAG, getString(R.string.event_connection_reconected));
+                            Toast.makeText(context, getString(R.string.event_connection_reconnected), Toast.LENGTH_SHORT).show();
+                            Log.d(TAG, getString(R.string.event_connection_reconnected));
                             break;
                         case RECONNECTING:
                             Toast.makeText(context, getString(R.string.event_connection_reconnecting), Toast.LENGTH_SHORT).show();
@@ -267,7 +267,7 @@ public class MainActivity extends Activity {
 
         @Override
         public void message(Object... args) {
-            Log.d(TAG, "Mensagem: " + args.toString());
+            Log.d(TAG, "Message: " + args.toString());
         }
 
         @Override
