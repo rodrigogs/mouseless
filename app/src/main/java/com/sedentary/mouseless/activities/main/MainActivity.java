@@ -4,11 +4,9 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.Color;
 import android.hardware.SensorEvent;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.util.JsonWriter;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -20,12 +18,10 @@ import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.sedentary.mouseless.R;
-import com.sedentary.mouseless.commons.Coordinates;
-import com.sedentary.mouseless.implementation.Accelerometer;
 import com.sedentary.mouseless.activities.settings.SettingsActivity;
-
-import com.github.nkzawa.socketio.client.Socket;
+import com.sedentary.mouseless.commons.Coordinates;
 import com.sedentary.mouseless.commons.MouseClickType;
+import com.sedentary.mouseless.implementation.Accelerometer;
 import com.sedentary.mouseless.implementation.SocketClient;
 
 import org.json.JSONException;
@@ -33,6 +29,7 @@ import org.json.JSONObject;
 
 import java.net.MalformedURLException;
 import java.net.URISyntaxException;
+import java.util.Arrays;
 
 public class MainActivity extends Activity {
 
@@ -167,9 +164,7 @@ public class MainActivity extends Activity {
                     settings.getString("serverIp", ""),
                     Integer.valueOf(settings.getString("serverPort", "0")),
                     socketClientCallback);
-        } catch (URISyntaxException e) {
-            socketClient = null;
-        } catch (MalformedURLException e) {
+        } catch (URISyntaxException | MalformedURLException e) {
             socketClient = null;
         }
 
@@ -183,56 +178,40 @@ public class MainActivity extends Activity {
 
         @Override
         public void sensorChanged(SensorEvent e) {
-            Integer mouseSensibility = settings.getInt("mouseSensibility", 0);
-            String c = new Gson().toJson(new Coordinates(
-                    e.values[0] * mouseSensibility,
-                    e.values[1] * mouseSensibility,
-                    e.values[2] * mouseSensibility));
-            try {
-                JSONObject coords = new JSONObject(c);
-                if (socketClient != null) {
-                    socketClient.emit(COORDINATES_EVENT, coords);
-                }
-            } catch (JSONException ex) {
-                ex.printStackTrace();
-            }
+            sendCoordinates(e.values).run();
         }
     };
 
-    /**
-     * @param click
-     * @return
-     */
     private Runnable sendClick(final Object click) {
 
-        Runnable aRunnable = new Runnable(){
+        return new Runnable(){
             public void run(){
                 if (socketClient != null) {
                     socketClient.emit(MOUSE_CLICK_EVENT, click);
                 }
             }
         };
-
-        return aRunnable;
     }
 
-    /**
-     * @param c
-     * @return
-     */
-    private Runnable sendCoordinates(final Coordinates c) {
+    private Runnable sendCoordinates(final float[] values) {
 
-        Runnable aRunnable = new Runnable(){
+        return new Runnable(){
             public void run(){
-                String coords = new Gson().toJson(c);
-
-                if (socketClient != null) {
-                    socketClient.emit(COORDINATES_EVENT, coords);
+                Integer mouseSensibility = settings.getInt("mouseSensibility", 0);
+                String c = new Gson().toJson(new Coordinates(
+                        values[0] * mouseSensibility,
+                        values[1] * mouseSensibility,
+                        values[2] * mouseSensibility));
+                try {
+                    JSONObject coords = new JSONObject(c);
+                    if (socketClient != null) {
+                        socketClient.emit(COORDINATES_EVENT, coords);
+                    }
+                } catch (JSONException ex) {
+                    ex.printStackTrace();
                 }
             }
         };
-
-        return aRunnable;
     }
 
     SocketClient.Callback socketClientCallback = new SocketClient.Callback() {
@@ -271,7 +250,7 @@ public class MainActivity extends Activity {
 
         @Override
         public void message(Object... args) {
-            Log.d(TAG, "Message: " + args.toString());
+            Log.d(TAG, "Message: " + Arrays.toString(args));
         }
 
         @Override
