@@ -17,3 +17,4 @@ Just change the app's configuration to point to a running server ip/port and it'
 * Bluetooth communication
 * Ignore coordinates preference
 * Ignore mouse clicks preference
+* Left handed preference
