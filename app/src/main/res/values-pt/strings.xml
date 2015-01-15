@@ -32,5 +32,6 @@
     <string name="generic_error">Erro</string>
     <string name="pref_header_host">Servidor</string>
     <string name="title_activity_settings">Configurações</string>
+    <string name="left_handed_mode">Modo canhoto</string>
 
 </resources>

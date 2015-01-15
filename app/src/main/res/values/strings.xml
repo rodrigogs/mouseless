@@ -14,6 +14,7 @@
     <string name="server_port_preference">Port</string>
     <string name="mouse_sensibility_preference">Mouse sensibility</string>
     <string name="mouse_sensibility_preference_summary">Adjusts the sensitivity of the mouse movement</string>
+    <string name="left_handed_mode">Left handed mode</string>
 
     <!--Socket events-->
     <string name="event_connection_connected">Connected</string>

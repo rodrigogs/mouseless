@@ -28,4 +28,12 @@
         robobunny:unitsRight=""
         />
 
+    <CheckBoxPreference
+        android:defaultValue="false"
+        android:dialogTitle="@string/left_handed_mode"
+        android:key="leftHanded"
+        android:persistent="true"
+        android:title="@string/left_handed_mode"
+        />
+
 </PreferenceScreen>

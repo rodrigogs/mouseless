@@ -118,12 +118,14 @@ public class MainActivity extends Activity {
         public boolean onTouch(View v, MotionEvent event) {
             String click = null;
 
+            Boolean leftHanded = settings.getBoolean("leftHanded", false);
+
             switch (event.getAction()) {
                 case MotionEvent.ACTION_DOWN:
-                    click = MouseClickType.LEFT_DOWN.toString();
+                    click = !leftHanded ? MouseClickType.LEFT_DOWN.toString() : MouseClickType.RIGHT_DOWN.toString();
                     break;
                 case MotionEvent.ACTION_UP:
-                    click = MouseClickType.LEFT_UP.toString();
+                    click = !leftHanded ? MouseClickType.LEFT_UP.toString() : MouseClickType.RIGHT_UP.toString();
                     break;
             }
 
@@ -139,12 +141,14 @@ public class MainActivity extends Activity {
         public boolean onTouch(View v, MotionEvent event) {
             String click = null;
 
+            Boolean leftHanded = settings.getBoolean("leftHanded", false);
+
             switch (event.getAction()) {
                 case MotionEvent.ACTION_DOWN:
-                    click = MouseClickType.RIGHT_DOWN.toString();
+                    click = !leftHanded ? MouseClickType.RIGHT_DOWN.toString() : MouseClickType.LEFT_DOWN.toString();
                     break;
                 case MotionEvent.ACTION_UP:
-                    click = MouseClickType.RIGHT_UP.toString();
+                    click = !leftHanded ? MouseClickType.RIGHT_UP.toString() : MouseClickType.LEFT_UP.toString();
                     break;
                 }
 

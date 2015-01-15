@@ -32,5 +32,6 @@
     <string name="generic_error">Error</string>
     <string name="pref_header_host">Server</string>
     <string name="title_activity_settings">Configurations</string>
+    <string name="left_handed_mode">Left handed mode</string>
 
 </resources>

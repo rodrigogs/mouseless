@@ -13,8 +13,8 @@ Just change the app's configuration to point to a running server ip/port and it'
 * Sensor sensibility preference
 * Auto reconnect preferences
 * Scroll button(could be volume buttons)
-* Internationalization
+* Internationalization :white_check_mark:
 * Bluetooth communication
 * Ignore coordinates preference
 * Ignore mouse clicks preference
-* Left handed preference
+* Left handed preference :white_check_mark:
