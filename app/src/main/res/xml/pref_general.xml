@@ -19,8 +19,8 @@
 
     <com.robobunny.SeekBarPreference
         android:key="mouseSensibility"
-        android:title="Sensibilidade do Mouse"
-        android:summary="Ajusta a sensibilidade do movimento do mouse"
+        android:title="@string/mouse_sensibility_preference"
+        android:summary="@string/mouse_sensibility_preference_summary"
         android:defaultValue="1"
         android:max="10"
         robobunny:min="1"

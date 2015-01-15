@@ -30,5 +30,7 @@
     <!--Errors-->
     <string name="malformed_url">Check configuration and try again</string>
     <string name="generic_error">Error</string>
+    <string name="pref_header_host">Server</string>
+    <string name="title_activity_settings">Configurations</string>
 
 </resources>

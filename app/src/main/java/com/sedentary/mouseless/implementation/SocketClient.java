@@ -36,7 +36,7 @@ public class SocketClient {
         IO.Options options = new IO.Options();
         options.forceNew = true;
         options.reconnection = true;
-        options.reconnectionDelay = 5000;
+        options.reconnectionDelay = 10000;
 
         socket = IO.socket(url.toURI(), options);
 
