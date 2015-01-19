@@ -1,4 +1,6 @@
-# Mouseless [![Build Status](https://travis-ci.org/rodrigogs/mouseless.svg?branch=master)](https://travis-ci.org/rodrigogs/mouseless)
+# Mouseless
+[![Build Status](https://travis-ci.org/rodrigogs/mouseless.svg?branch=master)](https://travis-ci.org/rodrigogs/mouseless)
+[![Gitter](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/rodrigogs/mouseless?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=body_badge)
 
 Android application using nkzawa's [socket.io-client.java](https://github.com/nkzawa/socket.io-client.java) for communication with [Mouseless Server](https://github.com/rodrigogs/mouseless-server)
 
