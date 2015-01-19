@@ -24,7 +24,16 @@ android:
     - sys-img-x86-android-19
 
 before_install:
- - chmod +x gradlew
+  - chmod +x gradlew
+  # Install required components.
+  # For a full list, run `android list sdk -a --extended`
+  # Note that sysimg-18 downloads the ARM, x86 and MIPS images (we should optimize this).
+  # Other relevant API's
+  - echo yes | android update sdk --filter platform-tools --no-ui --force > /dev/null
+  - echo yes | android update sdk --filter android-19 --no-ui --force > /dev/null
+  - echo yes | android update sdk --filter sysimg-19 --no-ui --force > /dev/null
+  - echo yes | android update sdk --filter extra-android-support --no-ui --force > /dev/null
+  - echo yes | android update sdk --filter extra-android-m2repository --no-ui --force > /dev/null
 
 before_script:
   - echo no | android create avd -f -n test -t android-19 --abi armeabi-v7a
