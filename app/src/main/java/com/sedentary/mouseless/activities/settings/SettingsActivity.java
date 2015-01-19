@@ -74,9 +74,9 @@ public class SettingsActivity extends PreferenceActivity {
 
         // Left handed
         Preference leftHanded = findPreference("leftHanded");
-        sBindPreferenceSummaryToValueListener.onPreferenceChange(mouseSensibility,
+        sBindPreferenceSummaryToValueListener.onPreferenceChange(leftHanded,
                 PreferenceManager
-                        .getDefaultSharedPreferences(mouseSensibility.getContext())
+                        .getDefaultSharedPreferences(leftHanded.getContext())
                         .getBoolean(leftHanded.getKey(), false));
     }
 
@@ -195,9 +195,9 @@ public class SettingsActivity extends PreferenceActivity {
 
             // Left handed
             Preference leftHanded = findPreference("leftHanded");
-            sBindPreferenceSummaryToValueListener.onPreferenceChange(mouseSensibility,
+            sBindPreferenceSummaryToValueListener.onPreferenceChange(leftHanded,
                     PreferenceManager
-                            .getDefaultSharedPreferences(mouseSensibility.getContext())
+                            .getDefaultSharedPreferences(leftHanded.getContext())
                             .getBoolean(leftHanded.getKey(), false));
         }
     }
