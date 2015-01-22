@@ -20,3 +20,4 @@ Just change the app's configuration to point to a running server ip/port and it'
 * Ignore coordinates preference
 * Ignore mouse clicks preference
 * Left handed preference :white_check_mark:
+* Connection using QR Code :white_check_mark:
