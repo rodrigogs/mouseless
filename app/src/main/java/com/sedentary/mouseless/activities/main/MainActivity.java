@@ -153,11 +153,14 @@ public class MainActivity extends Activity {
         }
 
         String host = serverSlices[0];
-        Integer port = Integer.valueOf(serverSlices[1]);
+        String port = serverSlices[1];
+
         // Set preferences
-        settings.edit().putString(SettingsActivity.PREF_SERVER_IP, host);
-        settings.edit().putInt(SettingsActivity.PREF_SERVER_PORT, port);
-        settings.edit().commit();
+        SharedPreferences.Editor editor = settings.edit();
+        editor.putString(SettingsActivity.PREF_SERVER_IP, host);
+        editor.putString(SettingsActivity.PREF_SERVER_PORT, port);
+        editor.commit();
+        editor.apply();
 
         if (socketClient == null) {
             createSocket();
@@ -183,7 +186,7 @@ public class MainActivity extends Activity {
         public boolean onTouch(View v, MotionEvent event) {
             String click = null;
 
-            Boolean leftHanded = settings.getBoolean("leftHanded", false);
+            Boolean leftHanded = settings.getBoolean(SettingsActivity.PREF_LEFT_HANDED, false);
 
             switch (event.getAction()) {
                 case MotionEvent.ACTION_DOWN:
@@ -206,7 +209,7 @@ public class MainActivity extends Activity {
         public boolean onTouch(View v, MotionEvent event) {
             String click = null;
 
-            Boolean leftHanded = settings.getBoolean("leftHanded", false);
+            Boolean leftHanded = settings.getBoolean(SettingsActivity.PREF_LEFT_HANDED, false);
 
             switch (event.getAction()) {
                 case MotionEvent.ACTION_DOWN:
@@ -229,8 +232,8 @@ public class MainActivity extends Activity {
     public void createSocket() {
         try {
             socketClient = new SocketClient(
-                    settings.getString("serverIp", ""),
-                    Integer.valueOf(settings.getString("serverPort", "0")),
+                    settings.getString(SettingsActivity.PREF_SERVER_IP, ""),
+                    Integer.valueOf(settings.getString(SettingsActivity.PREF_SERVER_PORT, "0")),
                     socketClientCallback);
         } catch (URISyntaxException | MalformedURLException e) {
             socketClient = null;
@@ -265,7 +268,7 @@ public class MainActivity extends Activity {
 
         return new Runnable(){
             public void run(){
-                Integer mouseSensibility = settings.getInt("mouseSensibility", 0);
+                Integer mouseSensibility = settings.getInt(SettingsActivity.PREF_MOUSE_SENSIBILITY, 0);
                 String c = new Gson().toJson(new Coordinates(
                         values[0] * mouseSensibility,
                         values[1] * mouseSensibility,
