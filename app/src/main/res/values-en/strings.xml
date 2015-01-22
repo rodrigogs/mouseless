@@ -1,21 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <!--App-->
     <string name="app_name">Mouseless</string>
-
-    <!--Actions-->
     <string name="action_settings">Configurations</string>
     <string name="action_connect">Connect</string>
     <string name="action_disconnect">Disconnect</string>
-
-    <!--Preferences-->
     <string name="server_ip_preference">Server IP</string>
     <string name="server_port_preference">Port</string>
     <string name="mouse_sensibility_preference">Mouse sensibility</string>
     <string name="mouse_sensibility_preference_summary">Adjusts the sensitivity of the mouse movement</string>
-
-    <!--Socket events-->
     <string name="event_connection_connected">Connected</string>
     <string name="event_connection_disconnected">Disconnected</string>
     <string name="event_connection_reconnect_attempt">Trying to reconnect</string>
@@ -26,12 +19,11 @@
     <string name="event_connection_connect_timeout">The connection attempt expired</string>
     <string name="event_connection_reconnect_failed">Reconnection failed</string>
     <string name="event_connection_reconnect_error">Reconnection failed</string>
-
-    <!--Errors-->
     <string name="malformed_url">Check configuration and try again</string>
     <string name="generic_error">Error</string>
-    <string name="pref_header_host">Server</string>
-    <string name="title_activity_settings">Configurations</string>
-    <string name="left_handed_mode">Left handed mode</string>
+    <string name="server_header">Server Configuration</string>
+    <string name="usability_header">Usability</string>
+    <string name="left_handed_mode_preference">Left handed mode</string>
+    <string name="title_activity_settings">Settings</string>
 
 </resources>

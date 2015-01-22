@@ -4,6 +4,6 @@
 
     <header
         android:fragment="com.sedentary.mouseless.activities.settings.SettingsActivity$GeneralPreferenceFragment"
-        android:title="@string/pref_header_host" />
+        android:title="@string/server_header" />
 
 </preference-headers>

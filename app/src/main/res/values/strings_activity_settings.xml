@@ -1,9 +1,0 @@
-<resources>
-    <string name="title_activity_settings">Configurações</string>
-
-    <!-- Strings related to Settings -->
-
-    <string name="pref_header_host">Server</string>
-
-
-</resources>

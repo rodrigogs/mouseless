@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.preference.ListPreference;
 import android.preference.Preference;
 import android.preference.PreferenceActivity;
+import android.preference.PreferenceCategory;
 import android.preference.PreferenceFragment;
 import android.preference.PreferenceManager;
 
@@ -55,29 +56,25 @@ public class SettingsActivity extends PreferenceActivity {
 
         // In the simplified UI, fragments are not used at all and we instead
         // use the older PreferenceActivity APIs.
+        addPreferencesFromResource(R.xml.pref_container);
 
-        // Add 'general' preferences.
-        addPreferencesFromResource(R.xml.pref_general);
+        // Add 'server' preferences, and a corresponding header.
+        PreferenceCategory serverHeader = new PreferenceCategory(this);
+        serverHeader.setTitle(R.string.server_header);
+        getPreferenceScreen().addPreference(serverHeader);
+        addPreferencesFromResource(R.xml.pref_server);
+
+        // Add 'server' preferences, and a corresponding header.
+        PreferenceCategory usabilityHeader = new PreferenceCategory(this);
+        usabilityHeader.setTitle(R.string.usability_header);
+        getPreferenceScreen().addPreference(usabilityHeader);
+        addPreferencesFromResource(R.xml.pref_usability);
 
         // Bind the summaries of EditText/List/Dialog/Ringtone preferences to
         // their values. When their values change, their summaries are updated
         // to reflect the new value, per the Android Design guidelines.
         bindPreferenceSummaryToValue(findPreference("serverIp"));
         bindPreferenceSummaryToValue(findPreference("serverPort"));
-
-        // SeekBar
-        Preference mouseSensibility = findPreference("mouseSensibility");
-        sBindPreferenceSummaryToValueListener.onPreferenceChange(mouseSensibility,
-                PreferenceManager
-                        .getDefaultSharedPreferences(mouseSensibility.getContext())
-                        .getInt(mouseSensibility.getKey(), 0));
-
-        // Left handed
-        Preference leftHanded = findPreference("leftHanded");
-        sBindPreferenceSummaryToValueListener.onPreferenceChange(leftHanded,
-                PreferenceManager
-                        .getDefaultSharedPreferences(leftHanded.getContext())
-                        .getBoolean(leftHanded.getKey(), false));
     }
 
     /** {@inheritDoc} */
@@ -177,7 +174,7 @@ public class SettingsActivity extends PreferenceActivity {
         @Override
         public void onCreate(Bundle savedInstanceState) {
             super.onCreate(savedInstanceState);
-            addPreferencesFromResource(R.xml.pref_general);
+            addPreferencesFromResource(R.xml.pref_usability);
 
             // Bind the summaries of EditText/List/Dialog/Ringtone preferences
             // to their values. When their values change, their summaries are
@@ -185,20 +182,6 @@ public class SettingsActivity extends PreferenceActivity {
             // guidelines.
             bindPreferenceSummaryToValue(findPreference("serverIp"));
             bindPreferenceSummaryToValue(findPreference("serverPort"));
-
-            // SeekBar
-            Preference mouseSensibility = findPreference("mouseSensibility");
-            sBindPreferenceSummaryToValueListener.onPreferenceChange(mouseSensibility,
-                    PreferenceManager
-                            .getDefaultSharedPreferences(mouseSensibility.getContext())
-                            .getInt(mouseSensibility.getKey(), 0));
-
-            // Left handed
-            Preference leftHanded = findPreference("leftHanded");
-            sBindPreferenceSummaryToValueListener.onPreferenceChange(leftHanded,
-                    PreferenceManager
-                            .getDefaultSharedPreferences(leftHanded.getContext())
-                            .getBoolean(leftHanded.getKey(), false));
         }
     }
 }
