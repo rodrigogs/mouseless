@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.hardware.SensorEvent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.util.Log;
@@ -37,6 +38,8 @@ public class MainActivity extends Activity {
 
     public static final String COORDINATES_EVENT = "coordinate";
     public static final String MOUSE_CLICK_EVENT = "mouseclick";
+
+    public static final Integer READ_QR_CODE_INTENT = 0;
 
     private Accelerometer accelerometer;
 
@@ -80,23 +83,88 @@ public class MainActivity extends Activity {
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
-        if (id == R.id.action_settings) {
-            Intent intent = new Intent(this, SettingsActivity.class);
-            startActivity(intent);
-            return true;
-        } else if (id == R.id.action_connect) {
-            if (socketClient == null) {
-                createSocket();
-            }
-            if (socketClient != null) {
-                socketClient.connect();
-            }
-        } else if (id == R.id.action_disconnect) {
-            if (socketClient != null) {
-                socketClient.disconnect();
+        switch (id) {
+            case R.id.action_settings:
+                Intent intent = new Intent(this, SettingsActivity.class);
+                startActivity(intent);
+                return true;
+            case R.id.action_connect:
+                if (socketClient == null) {
+                    createSocket();
+                }
+                if (socketClient != null) {
+                    socketClient.connect();
+                }
+                break;
+            case R.id.action_disconnect:
+                if (socketClient != null) {
+                    socketClient.disconnect();
+                }
+                break;
+            case R.id.action_read_qr: {
+                readQrCode();
+                break;
             }
         }
+
         return super.onOptionsItemSelected(item);
+    }
+
+    /**
+     *
+     */
+    private void readQrCode() {
+        try {
+            Intent intent = new Intent("com.google.zxing.client.android.SCAN");
+            intent.putExtra("SCAN_MODE", "QR_CODE_MODE");
+
+            startActivityForResult(intent, READ_QR_CODE_INTENT);
+        } catch (Exception e) {
+            Toast.makeText(getApplicationContext(), getString(R.string.msg_download_qr_reader), Toast.LENGTH_LONG).show();
+            Uri marketUri = Uri.parse("market://details?id=com.google.zxing.client.android");
+            Intent marketIntent = new Intent(Intent.ACTION_VIEW, marketUri);
+            startActivity(marketIntent);
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == READ_QR_CODE_INTENT) {
+            if (resultCode == RESULT_OK) {
+                String contents = data.getStringExtra("SCAN_RESULT");
+                startServerFromQrCode(contents);
+            }
+
+            if (resultCode == RESULT_CANCELED) {
+                Toast.makeText(getApplicationContext(), getString(R.string.msg_read_canceled), Toast.LENGTH_SHORT).show();
+            }
+        }
+    }
+
+    /**
+     *
+     */
+    private void startServerFromQrCode(String qrCodeResult) {
+        String[] serverSlices = qrCodeResult.split(":");
+        if (serverSlices.length != 2) {
+            Toast.makeText(getApplicationContext(), getString(R.string.msg_invalid_code), Toast.LENGTH_SHORT).show();
+        }
+
+        String host = serverSlices[0];
+        Integer port = Integer.valueOf(serverSlices[1]);
+        // Set preferences
+        settings.edit().putString(SettingsActivity.PREF_SERVER_IP, host);
+        settings.edit().putInt(SettingsActivity.PREF_SERVER_PORT, port);
+        settings.edit().commit();
+
+        if (socketClient == null) {
+            createSocket();
+        }
+        if (socketClient != null) {
+            socketClient.connect();
+        }
     }
 
     @Override

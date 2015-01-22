@@ -37,6 +37,11 @@ public class SettingsActivity extends PreferenceActivity {
      */
     private static final boolean ALWAYS_SIMPLE_PREFS = false;
 
+    public static final String PREF_SERVER_IP = "serverIp";
+    public static final String PREF_SERVER_PORT = "serverPort";
+    public static final String PREF_MOUSE_SENSIBILITY = "mouseSensibility";
+    public static final String PREF_LEFT_HANDED = "leftHanded";
+
     @Override
     protected void onPostCreate(Bundle savedInstanceState) {
         super.onPostCreate(savedInstanceState);
@@ -73,8 +78,8 @@ public class SettingsActivity extends PreferenceActivity {
         // Bind the summaries of EditText/List/Dialog/Ringtone preferences to
         // their values. When their values change, their summaries are updated
         // to reflect the new value, per the Android Design guidelines.
-        bindPreferenceSummaryToValue(findPreference("serverIp"));
-        bindPreferenceSummaryToValue(findPreference("serverPort"));
+        bindPreferenceSummaryToValue(findPreference(PREF_SERVER_IP));
+        bindPreferenceSummaryToValue(findPreference(PREF_SERVER_PORT));
     }
 
     /** {@inheritDoc} */
@@ -180,8 +185,8 @@ public class SettingsActivity extends PreferenceActivity {
             // to their values. When their values change, their summaries are
             // updated to reflect the new value, per the Android Design
             // guidelines.
-            bindPreferenceSummaryToValue(findPreference("serverIp"));
-            bindPreferenceSummaryToValue(findPreference("serverPort"));
+            bindPreferenceSummaryToValue(findPreference(PREF_SERVER_IP));
+            bindPreferenceSummaryToValue(findPreference(PREF_SERVER_PORT));
         }
     }
 }

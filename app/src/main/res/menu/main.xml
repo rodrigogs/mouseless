@@ -2,10 +2,11 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools" tools:context=".MainActivity" >
 
+    <item android:id="@+id/action_read_qr" app:showAsAction="always"
+        android:title="@string/action_read_qr" android:icon="@android:drawable/ic_menu_camera" />
     <item android:id="@+id/action_connect" android:title="@string/action_connect" />
     <item android:id="@+id/action_disconnect" android:title="@string/action_disconnect" />
-    <item android:id="@+id/action_settings"
-        android:title="@string/action_settings"
+    <item android:id="@+id/action_settings" android:title="@string/action_settings"
         android:orderInCategory="100"
         app:showAsAction="never" />
 

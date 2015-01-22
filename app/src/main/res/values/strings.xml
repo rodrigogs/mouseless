@@ -8,6 +8,7 @@
     <string name="title_activity_settings">Settings</string>
 
     <!--Actions-->
+    <string name="action_read_qr">Connect with QR code</string>
     <string name="action_settings">Configurations</string>
     <string name="action_connect">Connect</string>
     <string name="action_disconnect">Disconnect</string>
@@ -34,6 +35,11 @@
     <string name="event_connection_connect_timeout">The connection attempt expired</string>
     <string name="event_connection_reconnect_failed">Reconnection failed</string>
     <string name="event_connection_reconnect_error">Reconnection failed</string>
+
+    <!--Messages-->
+    <string name="msg_download_qr_reader">Downloader reader to use this function</string>
+    <string name="msg_read_canceled">Canceled reading</string>
+    <string name="msg_invalid_code">Invalid code</string>
 
     <!--Errors-->
     <string name="malformed_url">Check configuration and try again</string>

@@ -25,5 +25,9 @@
     <string name="usability_header">Usabilidade</string>
     <string name="left_handed_mode_preference">Modo canhoto</string>
     <string name="title_activity_settings">Configuraçoes</string>
+    <string name="action_read_qr">Conectar com QR code</string>
+    <string name="msg_download_qr_reader">Baixe o leitor para utilizar esta função</string>
+    <string name="msg_read_canceled">Leitura cancelada</string>
+    <string name="msg_invalid_code">Codigo invalido</string>
 
 </resources>
