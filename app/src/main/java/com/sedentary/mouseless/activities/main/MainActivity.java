@@ -55,8 +55,6 @@ public class MainActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        // Keep screen on
-        getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         // Accelerometer
         accelerometer = new Accelerometer(getApplicationContext(), accelerometerCallback);
         // Buttons
@@ -234,6 +232,7 @@ public class MainActivity extends Activity {
             socketClient = new SocketClient(
                     settings.getString(SettingsActivity.PREF_SERVER_IP, ""),
                     Integer.valueOf(settings.getString(SettingsActivity.PREF_SERVER_PORT, "0")),
+                    Long.valueOf(settings.getString(SettingsActivity.PREF_RECONNECTION_TIME, "10")) * 1000,
                     socketClientCallback);
         } catch (URISyntaxException | MalformedURLException e) {
             socketClient = null;
@@ -295,10 +294,14 @@ public class MainActivity extends Activity {
                 public void run() {
                     switch (status) {
                         case CONNECTED:
+                            // Keep screen on trick
+                            getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
                             Toast.makeText(context, getString(R.string.event_connection_connected), Toast.LENGTH_SHORT).show();
                             Log.d(TAG, getString(R.string.event_connection_connected));
                             break;
                         case DISCONNECTED:
+                            // Undo keep screen on trick
+                            getWindow().clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
                             Toast.makeText(context, getString(R.string.event_connection_disconnected), Toast.LENGTH_SHORT).show();
                             Log.d(TAG, getString(R.string.event_connection_disconnected));
                             break;

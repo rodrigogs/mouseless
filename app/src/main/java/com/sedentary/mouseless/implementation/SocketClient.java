@@ -28,7 +28,7 @@ public class SocketClient {
      * @throws URISyntaxException
      * @throws MalformedURLException
      */
-    public SocketClient(String address, Integer port, Callback callback) throws URISyntaxException, MalformedURLException {
+    public SocketClient(String address, Integer port, Long reconnectionTime, Callback callback) throws URISyntaxException, MalformedURLException {
         this.callback = callback;
 
         URL url = new URL("http", address, port, "");
@@ -36,7 +36,7 @@ public class SocketClient {
         IO.Options options = new IO.Options();
         options.forceNew = true;
         options.reconnection = true;
-        options.reconnectionDelay = 10000;
+        options.reconnectionDelay = reconnectionTime;
 
         socket = IO.socket(url.toURI(), options);
 

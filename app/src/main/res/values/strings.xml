@@ -18,6 +18,7 @@
     <string name="server_header">Server Configuration</string>
     <string name="server_ip_preference">Server IP</string>
     <string name="server_port_preference">Port</string>
+    <string name="server_reconnection_time_preference">Seconds to wait until try to reconnect</string>
     <!--Usability-->
     <string name="usability_header">Usability</string>
     <string name="mouse_sensibility_preference">Mouse sensibility</string>

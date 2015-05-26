@@ -16,4 +16,12 @@
         android:persistent="true"
         android:title="@string/server_port_preference" />
 
+    <EditTextPreference
+        android:defaultValue="10"
+        android:dialogTitle="@string/server_reconnection_time_preference"
+        android:inputType="number"
+        android:key="reconnectionTime"
+        android:persistent="true"
+        android:title="@string/server_reconnection_time_preference" />
+
 </PreferenceScreen>

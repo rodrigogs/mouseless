@@ -29,5 +29,6 @@
     <string name="msg_download_qr_reader">Baixe o leitor para utilizar esta função</string>
     <string name="msg_read_canceled">Leitura cancelada</string>
     <string name="msg_invalid_code">Codigo invalido</string>
+    <string name="server_reconnection_time_preference">Segundos para aguardar antes de tentar reconectar</string>
 
 </resources>

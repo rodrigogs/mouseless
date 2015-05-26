@@ -39,6 +39,7 @@ public class SettingsActivity extends PreferenceActivity {
 
     public static final String PREF_SERVER_IP = "serverIp";
     public static final String PREF_SERVER_PORT = "serverPort";
+    public static final String PREF_RECONNECTION_TIME = "reconnectionTime";
     public static final String PREF_MOUSE_SENSIBILITY = "mouseSensibility";
     public static final String PREF_LEFT_HANDED = "leftHanded";
 
@@ -80,6 +81,7 @@ public class SettingsActivity extends PreferenceActivity {
         // to reflect the new value, per the Android Design guidelines.
         bindPreferenceSummaryToValue(findPreference(PREF_SERVER_IP));
         bindPreferenceSummaryToValue(findPreference(PREF_SERVER_PORT));
+        bindPreferenceSummaryToValue(findPreference(PREF_RECONNECTION_TIME));
     }
 
     /** {@inheritDoc} */
@@ -187,6 +189,7 @@ public class SettingsActivity extends PreferenceActivity {
             // guidelines.
             bindPreferenceSummaryToValue(findPreference(PREF_SERVER_IP));
             bindPreferenceSummaryToValue(findPreference(PREF_SERVER_PORT));
+            bindPreferenceSummaryToValue(findPreference(PREF_RECONNECTION_TIME));
         }
     }
 }

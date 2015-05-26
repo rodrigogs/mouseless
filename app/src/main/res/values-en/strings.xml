@@ -26,8 +26,9 @@
     <string name="left_handed_mode_preference">Left handed mode</string>
     <string name="title_activity_settings">Settings</string>
     <string name="action_read_qr">Connect with QR code</string>
-    <string name="msg_download_qr_reader">Downloader reader to use this funtion</string>
+    <string name="msg_download_qr_reader">Downloader reader to use this function</string>
     <string name="msg_read_canceled">Read canceled</string>
     <string name="msg_invalid_code">Invalid code</string>
+    <string name="server_reconnection_time_preference">Seconds to wait until try to reconnect</string>
 
 </resources>

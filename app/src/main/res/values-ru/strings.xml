@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Mouseless</string>
+    <string name="action_connect">подключать</string>
+    <string name="action_disconnect">отключать</string>
+    <string name="action_read_qr">Связаться с QR кодом</string>
+    <string name="action_settings">Конфигурации</string>
+    <string name="event_connection_connect_error">Ошибка подключения</string>
+    <string name="event_connection_connect_timeout">Попытка подключения истек</string>
+    <string name="event_connection_connected">связанный</string>
+    <string name="event_connection_disconnected">Отключен</string>
+    <string name="event_connection_error">ошибка соединения</string>
+    <string name="event_connection_reconnect_attempt">Пытаясь восстановить</string>
+    <string name="event_connection_reconnect_error">Повторное удалось</string>
+    <string name="event_connection_reconnect_failed">Повторное удалось</string>
+    <string name="event_connection_reconnected">Reconnected</string>
+    <string name="event_connection_reconnecting">Повторное</string>
+    <string name="generic_error">ошибка</string>
+    <string name="left_handed_mode_preference">Левой рукой режим</string>
+    <string name="malformed_url">Проверьте конфигурацию и попробуйте еще раз</string>
+    <string name="mouse_sensibility_preference">Мышь чувствительность</string>
+    <string name="mouse_sensibility_preference_summary">Регулировка чувствительности движения мыши</string>
+    <string name="msg_download_qr_reader">Загрузчик читателю использовать эту функцию</string>
+    <string name="msg_invalid_code">неверный код</string>
+    <string name="msg_read_canceled">Читайте отменен</string>
+    <string name="server_header">Конфигурация сервера</string>
+    <string name="server_ip_preference">Сервер IP-</string>
+    <string name="server_port_preference">порт</string>
+    <string name="server_reconnection_time_preference">Секунд, чтобы ждать, пока не попытаетесь подключиться</string>
+    <string name="title_activity_settings">настройки</string>
+    <string name="usability_header">Юзабилити</string>
+</resources>
