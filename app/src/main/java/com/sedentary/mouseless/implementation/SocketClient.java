@@ -84,6 +84,7 @@ public class SocketClient {
     public void disconnect() {
         socket.disconnect();
         socket.close();
+        socket = null;
     }
 
     /**
